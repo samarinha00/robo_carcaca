@@ -22,32 +22,80 @@
 
 #define DIVISOR_BRANCO_PRETO 50
 
+#define VELOCIDADE_FRENTE 25
+
+#define VELOCIDADE_TRAS -40
+
+
+
 float valorSensorDir;
 float valorSensorEsq;
-
+float valorSensorMaisEsq;
+float valorSensorMaisDir;
 void setup(){
 	robo.configurar();
 }
 
 void loop(){
-
+  valorSensorMaisEsq = robo.lerSensorLinhaMaisEsq();
 	valorSensorEsq = robo.lerSensorLinhaEsq(); //Le o valor do sensor esquerdo e coloca dentro da variavel valor_sensor_esq
 	valorSensorDir = robo.lerSensorLinhaDir(); //Le o valor do sensor direito e coloca dentro da variavel valor_sensor_dir
+  valorSensorMaisDir = robo.lerSensorLinhaMaisDir();
 
-	//Identifica se os dois sensores viram branco
-	if(valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO){
-		robo.acionarMotores(50,50);	//Aciona os dois motores com a mesma velocidade
+  //Branco: valorSensor > divisor
+  //Preto:  valorSensor < divisor
+  
+	//bbbb
+	if(valorSensorMaisDir > DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+		robo.acionarMotores(VELOCIDADE_FRENTE,VELOCIDADE_FRENTE);	//Para frente
 	}
-	//Identifica se o sensor da esquerda viu banco e o da direita viu preto
-	else if (valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO){
-		robo.acionarMotores(50,0);	//Aciona o motor esquerdo e mantem o motor direito desligado
+	//pppb
+	else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+		robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_FRENTE);	//Para a esquerda
 	}
-	//Identifica se o sensor da direita viu banco e o da esquerda viu preto
-	else if ( valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO){
-		robo.acionarMotores(0,50);	//Aciona o motor direito e mantem o motor esquerdo desligado
+	//bbpb
+	else if (valorSensorMaisDir > DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+		robo.acionarMotores(VELOCIDADE_FRENTE,VELOCIDADE_TRAS);	//Para a esquerda
 	}
-	else{ //Identifica se os dois sensores viram preto
-		robo.acionarMotores(0,0);
+  //bbpp
+	else if (valorSensorMaisDir > DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+		robo.acionarMotores(VELOCIDADE_FRENTE,VELOCIDADE_TRAS); //Para a esquerda
 	}
+  //bpbb
+  else if (valorSensorMaisDir > DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq < DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_FRENTE); //Para a direita
+  }
+  //bppp
+  else if (valorSensorMaisDir > DIVISOR_BRANCO_PRETO && valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq < DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_FRENTE,VELOCIDADE_TRAS); //Para a esquerda
+  }
+  //pbbb
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_FRENTE); //Para a direita
+  }
+  //pbbp
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO && valorSensorMaisEsq < DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_FRENTE,VELOCIDADE_FRENTE); //Para frente
+  }
+  //pbpp
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir > DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq < DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_FRENTE,VELOCIDADE_TRAS); //Para a esquerda
+  }
+  //ppbb
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_FRENTE); //Para a direita
+  }
+  //ppbp
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq > DIVISOR_BRANCO_PRETO && valorSensorMaisEsq < DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_FRENTE); //Para a direita
+  }
+  //pppb
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq > DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_FRENTE); //Para a direita
+  }
+  //pppp
+  else if (valorSensorMaisDir < DIVISOR_BRANCO_PRETO && valorSensorDir < DIVISOR_BRANCO_PRETO && valorSensorEsq < DIVISOR_BRANCO_PRETO && valorSensorMaisEsq < DIVISOR_BRANCO_PRETO){
+    robo.acionarMotores(VELOCIDADE_TRAS,VELOCIDADE_TRAS); //Para tras
+  }
 
 }
